@@ -7,6 +7,7 @@ CREATE INDEX ON tweets_jsonb USING gin((data->'extended_tweet'->'entities'->'has
 -- Create indexes to speed up bitmap scan
 CREATE INDEX ON tweets_jsonb USING btree((data->>'lang'));
 CREATE INDEX ON tweets_jsonb USING btree((data->>'id'));
+CREATE INDEX ON tweets_jsonb USING btree((data->>'lang'), (data->>'id'));
 
 -- Create indexes to speed up FTS in tweets (not tags)
 CREATE INDEX ON tweets_jsonb USING gin(to_tsvector('english', COALESCE(data->'extended_tweet'->>'full_text', data->>'text')));
